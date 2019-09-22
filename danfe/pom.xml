@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>teste</groupId>
+  <artifactId>danfe</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+  <dependencies>
+ 	<dependency>
+    	<groupId>net.sf.jasperreports</groupId>
+    	<artifactId>jasperreports</artifactId>
+    	<version>6.9.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+	<dependency>
+    	<groupId>org.mariadb.jdbc</groupId>
+    	<artifactId>mariadb-java-client</artifactId>
+    	<version>2.4.3</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/xalan/xalan -->
+	<dependency>
+    	<groupId>xalan</groupId>
+    	<artifactId>xalan</artifactId>
+    	<version>2.7.2</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/net.sourceforge.barbecue/barbecue -->
+	<dependency>
+    	<groupId>net.sourceforge.barbecue</groupId>
+    	<artifactId>barbecue</artifactId>
+    	<version>1.5-beta1</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/win.zqxu/jrviewer-fx -->
+	<dependency>
+    <groupId>win.zqxu</groupId>
+    <artifactId>jrviewer-fx</artifactId>
+    <version>0.1.1</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+	<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>4.1.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.webjars.bower/prism -->
+	<dependency>
+    <groupId>org.webjars.bower</groupId>
+    <artifactId>prism</artifactId>
+    <version>1.16.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-graphics -->
+	<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-graphics</artifactId>
+    <version>13-ea+13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
+	<dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-base</artifactId>
+    <version>13-ea+13</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+	<dependency>
+    <groupId>commons-httpclient</groupId>
+    <artifactId>commons-httpclient</artifactId>
+    <version>3.1</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/jdom/jdom -->
+	<dependency>
+    <groupId>jdom</groupId>
+    <artifactId>jdom</artifactId>
+    <version>1.1</version>
+	</dependency>
+	
+ </dependencies>
+</project>
