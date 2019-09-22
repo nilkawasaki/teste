@@ -14,18 +14,47 @@ public class SefazXml {
 
 
 	public static void main(String[] args) {
+		
+		String stpAmb = "1";           //Informar o Ambiente 1-Produção, 2-Homologação
+		String sUFAutor ="";         //UF do Autor código IBGE pode homitir
+		String sCNPJ = "08618022000202";   //CNPJ do Cliente
+		//String sCNPJ = "00000000000000";
+		String sultNSU = "000000000007190";  // Ultima NSU vem do Banco.
+		//String sultNSU = "000000000000000";
+		//String schNFe = "41190905607657000135550030008577431008637997";
+		String schNFe = "00000000000000000000000000000000000000000000";
+						
 	
-		String cnf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n" + 
-				"<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n" + 
-				"  <soap12:Body>\r\n" + 
-				"    <nfeDistDFeInteresse xmlns=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe\">\r\n" + 
-				"      <nfeDadosMsg><distDFeInt xmlns=\"http://www.portalfiscal.inf.br/nfe\" versao=\"1.01\"><tpAmb>1</tpAmb><cUFAutor>35</cUFAutor><CNPJ>08618022000202</CNPJ><distNSU><ultNSU>000000000000000</ultNSU></distNSU></distDFeInt></nfeDadosMsg>\r\n" + 
-				"    </nfeDistDFeInteresse>\r\n" + 
-				"  </soap12:Body>\r\n" + 
-				"</soap12:Envelope>";
+		StringBuffer cnf = new StringBuffer();
+		
+		 cnf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n");
+		 cnf.append("<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n");
+		 cnf.append("  <soap12:Body>\r\n");
+		 cnf.append("    <nfeDistDFeInteresse xmlns=\"http://www.portalfiscal.inf.br/nfe/wsdl/NFeDistribuicaoDFe\">\r\n") ;
+		 cnf.append("      <nfeDadosMsg><distDFeInt xmlns=\"http://www.portalfiscal.inf.br/nfe\" versao=\"1.01\">");
+		 cnf.append("<tpAmb>"+stpAmb+"</tpAmb>");
+		 if (sUFAutor!="") {
+		 cnf.append("<cUFAutor>"+sUFAutor+"</cUFAutor>");
+		 }
+		 cnf.append("<CNPJ>"+sCNPJ+"</CNPJ>");
+		 if (sultNSU=="000000000000000" && schNFe=="00000000000000000000000000000000000000000000" ) {
+				 cnf.append("<distNSU><ultNSU>"+sultNSU+"</ultNSU></distNSU>");
+		 } else if(sultNSU!="000000000000000") {
+			 cnf.append("<distNSU><ultNSU>"+sultNSU+"</ultNSU></distNSU>");
+		 }
+		 if (schNFe!="00000000000000000000000000000000000000000000") {
+		 cnf.append("<consChNFe><chNFe>"+schNFe+"</chNFe></consChNFe>");
+		 }
+		 cnf.append("</distDFeInt></nfeDadosMsg>\r\n");
+		 cnf.append("    </nfeDistDFeInteresse>\r\n");
+		 cnf.append("  </soap12:Body>\r\n");
+		 cnf.append("</soap12:Envelope>");
+		 
+		 //System.out.println(cnf); 
 
 		/** 
          * 1) codigoDoEstado = Código do Estado conforme tabela IBGE. 
+         * 
          * 
          * 2) url = Endereço do WebService para cada Estado. 
          *       Ver relação dos endereços em: 
@@ -70,7 +99,7 @@ public class SefazXml {
 			//.setParameter("http.useragent", "Web Service Test Client");
 			 
 			BufferedReader br = null;
-			String data = cnf;
+			String data = cnf.toString();
 					PostMethod methodPost = new PostMethod("https://www1.nfe.fazenda.gov.br/NFeDistribuicaoDFe/NFeDistribuicaoDFe.asmx");
 							methodPost.setRequestBody(data);
 							methodPost.setRequestHeader("Content-Type", "text/xml");
@@ -88,12 +117,11 @@ public class SefazXml {
 							while (((readLine = br.readLine()) != null)) {
 								/** 
 						         * Printa a linha do retorno xml que etá na readLine
-						         */  
-							TrataXML lexml = new TrataXML();  
-						       lexml.lerarq(readLine); 
+						         */    
+								TrataXML.lerarq(readLine); 
 						       
 							
-							//System.out.println(readLine); 
+								//System.out.println(readLine); 
 								}
 							  }
 							} catch (Exception e) {

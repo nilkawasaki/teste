@@ -25,11 +25,11 @@ import org.apache.commons.codec.binary.Base64;
 public class TrataXML {  
 	
 	//----------------------Trata XML	
-	    public void lerarq(String stringComEstruturaDoXML) throws UnsupportedEncodingException {  
+	    public static void lerarq(String stringComEstruturaDoXML) throws UnsupportedEncodingException {  
 	//Aqui você informa o nome do arquivo XML.  
-	       // File f = new File("C:/NFE/nfd.xml");    
+	       // File f = new File("C:/NFE/nfd.xml");
 	        InputStream f = new ByteArrayInputStream(stringComEstruturaDoXML.getBytes("utf-8"));  
-	  
+
 	//Criamos uma classe SAXBuilder que vai processar o XML  
 	        SAXBuilder sb = new SAXBuilder();  
 	  
@@ -69,7 +69,7 @@ public class TrataXML {
 	  
 	    }  
 	  
-	    public void trataElement(Element element) {  
+	    public static void trataElement(Element element) {  
 	  
 	//Recuperamos os atributos filhos (Attributes)  
 	            List atributes = element.getAttributes();  
@@ -89,6 +89,7 @@ public class TrataXML {
 	                if (atrib.getName().contentEquals("NSU")) {
 	                	System.out.println("NSU: "+atrib.getValue());
 	                }
+
 	            }  
 	//Recuperamos os elementos filhos (children)  
 	        List elements = element.getChildren();  
@@ -99,14 +100,26 @@ public class TrataXML {
 	            Element el = (Element) it.next();  
 	            //System.out.println("elemento("+element.getName()+"):"+ el.getName()+" - Valor: "+el.getText());  
 	  
-	            //  aqui voce pode escolher qual(is) campo(s) quer manipular    
+	            //  aqui voce pode escolher qual(is) campo(s) quer manipular   
+	            if (el.getName().equals("ultNSU")) {  
+	            	 System.out.println("ultNSU: "+ el.getText());
+	            }
+	     
+	            if (el.getName().equals("maxNSU")) {  
+	            	 System.out.println("maxNSU: "+ el.getText());
+	            }
+	            
+	            
+	            
 	            if (el.getName().equals("docZip")) {  
 	            	try {  
 	                    String gzipBase64 = el.getText();  
 	          
 	                    byte[] decoded = Base64.decodeBase64(gzipBase64.getBytes());  
 	                    String texto = GzipUtils.decompress(decoded);  
-	                    System.out.println("XML: ".concat(texto));  
+	                    System.out.println("XML: ".concat(texto));
+	                    
+	                    
 	                } catch (Exception e) {  
 	                	System.out.printf(TrataXML.class.getSimpleName().concat(" :"), e);  	
 	            	}
