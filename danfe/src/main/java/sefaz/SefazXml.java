@@ -19,13 +19,13 @@ public class SefazXml {
 		String sUFAutor ="";         //UF do Autor código IBGE pode homitir
 		String sCNPJ = "08618022000202";   //CNPJ do Cliente
 		//String sCNPJ = "00000000000000";
-		String sultNSU = "000000000007190";  // Ultima NSU vem do Banco.
+		String sultNSU = "000000000007185";  // Ultima NSU vem do Banco.
 		//String sultNSU = "000000000000000";
 		//String schNFe = "41190905607657000135550030008577431008637997";
 		String schNFe = "00000000000000000000000000000000000000000000";
 						
 	
-		StringBuffer cnf = new StringBuffer();
+		StringBuilder cnf = new StringBuilder();
 		
 		 cnf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n");
 		 cnf.append("<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\r\n");
@@ -67,8 +67,7 @@ public class SefazXml {
          * 
          * 5) arquivoCacertsGeradoParaCadaEstado = Arquivo com os Certificados necessarios para 
          * acessar o WebService. Pode ser gerado com a Classe NFeBuildCacerts. 
-         */  
-        //String codigoDoEstado = "35";  
+         */   
         
         
         String caminhoDoCertificadoDoCliente = "C:/NFE/medicamental.pfx";  
