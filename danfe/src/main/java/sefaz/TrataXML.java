@@ -22,7 +22,10 @@ import org.apache.commons.codec.binary.Base64;
 //----------------------------------------------
 
 
-public class TrataXML {  
+public class TrataXML { 
+	private static String ultNSU;
+	private static String maxNSU;
+	private List<XmlLista> xmlLista;
 	
 	//----------------------Trata XML	
 	    public static void lerarq(String stringComEstruturaDoXML) throws UnsupportedEncodingException {  
@@ -57,7 +60,7 @@ public class TrataXML {
 	            while (i.hasNext()) {  
 	                Element element = (Element) i.next();  
 	                System.out.println("element:"+ element.getName());  
-	                trataElement(element);  
+	                	trataElement(element);
 	            }  
 	  
 	        } catch (JDOMException ex) {  
@@ -66,10 +69,9 @@ public class TrataXML {
 	            Logger.getLogger(SefazXml.class.getName()).log(Level.SEVERE, null, ex);  
 	        }  
 	  
-	  
 	    }  
 	  
-	    public static void trataElement(Element element) {  
+	    public static String trataElement(Element element) {  
 	  
 	//Recuperamos os atributos filhos (Attributes)  
 	            List atributes = element.getAttributes();  
@@ -84,6 +86,7 @@ public class TrataXML {
 	                //  aqui voce pode escolher qual(is) campo(s) quer manipular                 
 	                if (atrib.getName().contentEquals("schema")) {
 	                	System.out.println("Schema: "+atrib.getValue());
+	                	
 	                }
 	                
 	                if (atrib.getName().contentEquals("NSU")) {
@@ -102,11 +105,13 @@ public class TrataXML {
 	  
 	            //  aqui voce pode escolher qual(is) campo(s) quer manipular   
 	            if (el.getName().equals("ultNSU")) {  
-	            	 System.out.println("ultNSU: "+ el.getText());
+	            	 //System.out.println("ultNSU: "+ el.getText());
+	            	 ultNSU = el.getText();
 	            }
 	     
 	            if (el.getName().equals("maxNSU")) {  
-	            	 System.out.println("maxNSU: "+ el.getText());
+	            	 //System.out.println("maxNSU: "+ el.getText());
+	            	 maxNSU = el.getText();
 	            }
 	            
 	            
@@ -128,7 +133,8 @@ public class TrataXML {
 	                //System.out.println("docZip: "+ el.getText());
 	            }  
 	            trataElement(el);  
-	        }  
+	        }
+	        return maxNSU;
 	    }
 	//----------------------------------------------------------------------------	
 

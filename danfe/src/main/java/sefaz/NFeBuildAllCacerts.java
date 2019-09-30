@@ -58,15 +58,15 @@ public class NFeBuildAllCacerts {
             //MG - https://hnfe.fazenda.mg.gov.br  
             get("hnfe.fazenda.mg.gov.br", 443, ks);  
             //MS - https://homologacao.nfe.ms.gov.br  
-            get("homologacao.nfe.ms.gov.br", 443, ks);  
+            //get("homologacao.nfe.ms.gov.br", 443, ks);  
             //MT - https://homologacao.sefaz.mt.gov.br  
             get("homologacao.sefaz.mt.gov.br", 443, ks);  
             //PE - https://nfehomolog.sefaz.pe.gov.br  
             get("nfehomolog.sefaz.pe.gov.br", 443, ks);  
             //PR - https://homologacao.nfe2.fazenda.pr.gov.br  
-            get("homologacao.nfe2.fazenda.pr.gov.br", 443, ks);  
+            //get("homologacao.nfe2.fazenda.pr.gov.br", 443, ks);  
             //RS - https://homologacao.nfe.sefaz.rs.gov.br  
-            get("homologacao.nfe.sefaz.rs.gov.br", 443, ks);  
+            //get("homologacao.nfe.sefaz.rs.gov.br", 443, ks);  
             //RS2 - https://sef.sefaz.rs.gov.br  
             get("sef.sefaz.rs.gov.br", 443, ks);  
             //SP - https://homologacao.nfe.fazenda.sp.gov.br  
@@ -74,7 +74,7 @@ public class NFeBuildAllCacerts {
             //SVAN - https://hom.sefazvirtual.fazenda.gov.br  
             get("hom.sefazvirtual.fazenda.gov.br", 443, ks);  
             //SVRS - https://homologacao.nfe.sefazvirtual.rs.gov.br  
-            get("homologacao.nfe.sefazvirtual.rs.gov.br", 443, ks);  
+            //get("homologacao.nfe.sefazvirtual.rs.gov.br", 443, ks);  
             //SVRS NfeConsultaCadastro - https://webservice.set.rn.gov.br  
             get("webservice.set.rn.gov.br", 443, ks);  
             //SCAN - https://hom.nfe.fazenda.gov.br  
@@ -105,9 +105,9 @@ public class NFeBuildAllCacerts {
             //PE - https://nfe.sefaz.pe.gov.br  
             get("nfe.sefaz.pe.gov.br", 443, ks);  
             //PR - https://nfe2.fazenda.pr.gov.br  
-            get("nfe2.fazenda.pr.gov.br", 443, ks);  
+            //get("nfe2.fazenda.pr.gov.br", 443, ks);  
             //RS - https://nfe.sefaz.rs.gov.br  
-            get("nfe.sefaz.rs.gov.br", 443, ks);  
+            //get("nfe.sefaz.rs.gov.br", 443, ks);  
             //RS NfeConsultaCadastro - https://sef.sefaz.rs.gov.br  
             get("sef.sefaz.rs.gov.br", 443, ks);  
             //SP - https://nfe.fazenda.sp.gov.br  
@@ -115,11 +115,11 @@ public class NFeBuildAllCacerts {
             //SVAN  - https://www.sefazvirtual.fazenda.gov.br  
             get("www.sefazvirtual.fazenda.gov.br", 443, ks);  
             //SVRS - https://nfe.sefazvirtual.rs.gov.br  
-            get("nfe.sefazvirtual.rs.gov.br", 443, ks);  
+            //get("nfe.sefazvirtual.rs.gov.br", 443, ks);  
             //SVRS - https://svp-ws.sefazvirtual.rs.gov.br  
-            get("svp-ws.sefazvirtual.rs.gov.br", 443, ks);  
+            //get("svp-ws.sefazvirtual.rs.gov.br", 443, ks);  
             //SCAN  - https://www.scan.fazenda.gov.br  
-            get("www.scan.fazenda.gov.br", 443, ks);  
+            //get("www.scan.fazenda.gov.br", 443, ks);  
             //SVC-AN - https://www.svc.fazenda.gov.br  
             get("www.svc.fazenda.gov.br", 443, ks);  
             //AN - https://www.nfe.fazenda.gov.br  
@@ -192,19 +192,18 @@ public class NFeBuildAllCacerts {
             this.tm = tm;  
         }  
   
-        @Override  
+
         public X509Certificate[] getAcceptedIssuers() {  
             return new X509Certificate[0];  
             // throw new UnsupportedOperationException();  
         }  
   
-        @Override  
+
         public void checkClientTrusted(X509Certificate[] chain, String authType)  
                 throws CertificateException {  
             throw new UnsupportedOperationException();  
         }  
   
-        @Override  
         public void checkServerTrusted(X509Certificate[] chain, String authType)  
                 throws CertificateException {  
             this.chain = chain;  

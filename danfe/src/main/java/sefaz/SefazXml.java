@@ -1,6 +1,7 @@
 package sefaz;
 
 import java.security.Security;
+import java.util.List;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -11,19 +12,16 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 
 public class SefazXml {
+	
+	private String stpAmb;
+	private String sUFAutor;
+	private String sCNPJ;
+	private String sultNSU;
+	private String schNFe;
 
-
-	public static void main(String[] args) {
-		
-		String stpAmb = "1";           //Informar o Ambiente 1-Produção, 2-Homologação
-		String sUFAutor ="";         //UF do Autor código IBGE pode homitir
-		String sCNPJ = "08618022000202";   //CNPJ do Cliente
-		//String sCNPJ = "00000000000000";
-		String sultNSU = "000000000007185";  // Ultima NSU vem do Banco.
-		//String sultNSU = "000000000000000";
-		//String schNFe = "41190905607657000135550030008577431008637997";
-		String schNFe = "00000000000000000000000000000000000000000000";
-						
+	
+	
+	public static void setXml(String stpAmb,String sUFAutor,String sCNPJ,String sultNSU,String schNFe) {
 	
 		StringBuilder cnf = new StringBuilder();
 		
@@ -103,36 +101,36 @@ public class SefazXml {
 							methodPost.setRequestBody(data);
 							methodPost.setRequestHeader("Content-Type", "text/xml");
 							try {
-							int returnCode = httpClient.executeMethod(methodPost);
+								int returnCode = httpClient.executeMethod(methodPost);
 							 
-							if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
-							System.out
-							.println("The Post method is not implemented by this URI");
-							methodPost.getResponseBodyAsString();
-							} else {
-							br = new BufferedReader(new InputStreamReader(methodPost
-							.getResponseBodyAsStream()));
-							String readLine;
-							while (((readLine = br.readLine()) != null)) {
-								/** 
-						         * Printa a linha do retorno xml que etá na readLine
-						         */    
-								TrataXML.lerarq(readLine); 
+								if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
+									System.out
+									.println("The Post method is not implemented by this URI");
+									methodPost.getResponseBodyAsString();
+								} else {
+									br = new BufferedReader(new InputStreamReader(methodPost
+									.getResponseBodyAsStream()));
+									String readLine;
+									while (((readLine = br.readLine()) != null)) {
+											/** 
+											 * Printa a linha do retorno xml que etá na readLine
+											 */    
+										TrataXML.lerarq(readLine);
 						       
 							
-								//System.out.println(readLine); 
-								}
-							  }
+										//System.out.println(readLine); 
+									}
+							  	}
 							} catch (Exception e) {
-							e.printStackTrace();
+								e.printStackTrace();
 							} finally {
-							methodPost.releaseConnection();
-							if (br != null)
-							try {
-							br.close();
-							} catch (Exception fe) {
-							fe.printStackTrace();
-							    }
+								methodPost.releaseConnection();
+								if (br != null)
+									try {
+									br.close();
+									} catch (Exception fe) {
+										fe.printStackTrace();
+									}
 							}
-		 }
+	}
 }
