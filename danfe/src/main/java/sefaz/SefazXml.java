@@ -18,11 +18,12 @@ public class SefazXml {
 	private String sCNPJ;
 	private String sultNSU;
 	private String schNFe;
-
+	public static XmlEstrutura Estrutura;
 	
 	
-	public static void setXml(String stpAmb,String sUFAutor,String sCNPJ,String sultNSU,String schNFe) {
 	
+	public static XmlEstrutura setXml(String stpAmb,String sUFAutor,String sCNPJ,String sultNSU,String schNFe) {
+		
 		StringBuilder cnf = new StringBuilder();
 		
 		 cnf.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n");
@@ -48,7 +49,7 @@ public class SefazXml {
 		 cnf.append("  </soap12:Body>\r\n");
 		 cnf.append("</soap12:Envelope>");
 		 
-		 //System.out.println(cnf); 
+		 // System.out.println(cnf); 
 
 		/** 
          * 1) codigoDoEstado = Código do Estado conforme tabela IBGE. 
@@ -92,8 +93,6 @@ public class SefazXml {
 
 
 			HttpClient httpClient = new HttpClient();
-			//httpClient.getParams()
-			//.setParameter("http.useragent", "Web Service Test Client");
 			 
 			BufferedReader br = null;
 			String data = cnf.toString();
@@ -114,11 +113,13 @@ public class SefazXml {
 									while (((readLine = br.readLine()) != null)) {
 											/** 
 											 * Printa a linha do retorno xml que etá na readLine
-											 */    
-										TrataXML.lerarq(readLine);
-						       
-							
-										//System.out.println(readLine); 
+											 */   
+										
+										//RecuperaXml.lerarq(readLine);
+										Estrutura = TrataXML.lerarq(readLine);
+
+										
+										
 									}
 							  	}
 							} catch (Exception e) {
@@ -132,5 +133,6 @@ public class SefazXml {
 										fe.printStackTrace();
 									}
 							}
+		return Estrutura;
 	}
 }

@@ -11,13 +11,15 @@ public class principal {
 		String sUFAutor ="";         //UF do Autor código IBGE pode homitir
 		String sCNPJ = "08618022000202";   //CNPJ do Cliente
 		//String sCNPJ = "00000000000000";
-		String sultNSU = "000000000007210";  // Ultima NSU vem do Banco.
+		String sultNSU = "000000000007235";  // Ultima NSU vem do Banco.
 		//String sultNSU = "000000000000000";
 		//String schNFe = "41190905607657000135550030008577431008637997";
 		String schNFe = "00000000000000000000000000000000000000000000";
 	
 		
-	SefazXml.setXml(stpAmb, sUFAutor, sCNPJ, sultNSU, schNFe);
+	System.out.println(SefazXml.setXml(stpAmb, sUFAutor, sCNPJ, sultNSU, schNFe).getXml());
+	
+	
 	}
 
 }
