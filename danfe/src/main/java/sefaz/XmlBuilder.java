@@ -1,8 +1,6 @@
 package sefaz;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class XmlBuilder {
@@ -30,15 +28,16 @@ public class XmlBuilder {
 		xmlEstrutura.setXml(xml);
 		
 		if(instancia.getXmlEstrutura() == null) {
-			instancia.setXmlEstrutura(new ArrayList());
+			instancia.setXmlEstrutura(new ArrayList<>());
 		}
-		
 		instancia.getXmlEstrutura().add(xmlEstrutura);
 		return this;
 		
 	}
 	
-	public XmlBuilder builder() {
+	
+	
+	public XmlRetorno builder() {
 		return instancia;
 	}
 

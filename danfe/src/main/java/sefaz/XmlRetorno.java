@@ -2,6 +2,7 @@ package sefaz;
 
 import java.util.List;
 
+
 public class XmlRetorno {
 	private String ultNSU;
 	private String maxNSU;
@@ -23,10 +24,13 @@ public class XmlRetorno {
 	public List<XmlEstrutura> getXmlEstrutura() {
 		return xmlEstrutura;
 	}
+	
+	public XmlEstrutura getXmlEstruturaP() {
+		return xmlEstrutura.get(0);
+	}
+	
 	public void setXmlEstrutura(List<XmlEstrutura> xmlEstrutura) {
 		this.xmlEstrutura = xmlEstrutura;
 	}
 	
-	
-
 }

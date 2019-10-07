@@ -19,10 +19,11 @@ public class SefazXml {
 	private String sultNSU;
 	private String schNFe;
 	public static XmlEstrutura Estrutura;
+	public static XmlRetorno retornoXml;
 	
 	
 	
-	public static XmlEstrutura setXml(String stpAmb,String sUFAutor,String sCNPJ,String sultNSU,String schNFe) {
+	public static XmlRetorno setXml(String stpAmb,String sUFAutor,String sCNPJ,String sultNSU,String schNFe) {
 		
 		StringBuilder cnf = new StringBuilder();
 		
@@ -116,7 +117,8 @@ public class SefazXml {
 											 */   
 										
 										//RecuperaXml.lerarq(readLine);
-										Estrutura = TrataXML.lerarq(readLine);
+										//Estrutura = TrataXML.lerarq(readLine);
+										retornoXml = TrataXML.lerarq(readLine);
 
 										
 										
@@ -133,6 +135,7 @@ public class SefazXml {
 										fe.printStackTrace();
 									}
 							}
-		return Estrutura;
+		//return Estrutura;
+		return retornoXml;
 	}
 }
