@@ -22,12 +22,13 @@ import org.apache.commons.codec.binary.Base64;
 //----------------------------------------------
 
 
-public class TrataXML { 
+public class LeXml { 
 	public static XmlRetorno retornoXml = new XmlRetorno();
 	public static XmlRetorno retornoXml2 = new XmlRetorno();
+	
 
 	//----------------------Trata XML	
-	    public static XmlRetorno lerarq(String stringComEstruturaDoXML) throws UnsupportedEncodingException {  
+	    public static XmlRetorno lerarq(String stringComEstruturaDoXML, String campo) throws UnsupportedEncodingException {  
 	//Aqui você informa o nome do arquivo XML.  
 	       // File f = new File("C:/NFE/nfd.xml");
 	        InputStream f = new ByteArrayInputStream(stringComEstruturaDoXML.getBytes("utf-8"));  
@@ -49,7 +50,7 @@ public class TrataXML {
 	//Iteramos com os atributos filhos  
 	            while (i_atr.hasNext()) {  
 	                Attribute atrib = (Attribute) i_atr.next();  
-	                System.out.println("\nattribute de ("+nfe.getName()+"):"+ atrib.getName()+" - valor: "+atrib.getValue());  
+	                /*System.out.println("\nattribute de ("+nfe.getName()+"):"+ atrib.getName()+" - valor: "+atrib.getValue());  */
 	            }  
 	//Recuperamos os elementos filhos (children)  
 	            List elements = nfe.getChildren();  
@@ -60,7 +61,7 @@ public class TrataXML {
 	                Element element = (Element) i.next();  
 	                //System.out.println("element:"+ element.getName());  
 	               // Estrutura =	trataElement(element); 
-	                retornoXml2 = trataElement(element);
+	                retornoXml2 = trataElement(element, campo);
 	            }  
 	  
 	        } catch (JDOMException ex) {  
@@ -71,7 +72,7 @@ public class TrataXML {
 	        return retornoXml2;
 	    }  
 	  
-	    public static XmlRetorno trataElement(Element element) {
+	    public static XmlRetorno trataElement(Element element, String campo) {
             	XmlEstrutura Estrutura = new XmlEstrutura();
             	XmlEstrutura EstruturaXml= new XmlEstrutura();
 	//Recuperamos os atributos filhos (Attributes)  
@@ -103,6 +104,7 @@ public class TrataXML {
 	                	Estrutura.setXml(EstruturaXml.getXml());
 	                	Estrutura.setNsu(atrib.getValue());
 	                }
+	                System.out.println(atrib.getName()+"="+atrib.getValue());
 	            } 
 	            
 	            
@@ -144,8 +146,13 @@ public class TrataXML {
 	                } catch (Exception e) {  
 	                	System.out.printf(TrataXML.class.getSimpleName().concat(" :"), e);  
 	            	}
-	            }          
-	            trataElement(el);   
+	            } 
+	            if (el.getName().equals(campo)){
+						//System.out.println("<"+campo+"> "+ el.getText());
+	            }
+	            
+	            	System.out.println(el.getName()+"="+ el.getText());
+	            trataElement(el, campo);   
 	        }
 	    return retornoXml;
 	    }
