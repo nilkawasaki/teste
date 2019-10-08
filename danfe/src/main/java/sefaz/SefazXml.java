@@ -116,7 +116,7 @@ public class SefazXml {
 											 */   
 										
 										//RecuperaXml.lerarq(readLine);
-										//Estrutura = TrataXML.lerarq(readLine);
+										//Estrutura = TrataXML1.lerarq(readLine);
 										retornoXml = TrataXML.lerarq(readLine);
 
 										

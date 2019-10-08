@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,18 +15,16 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-
 //import Logger GZIPtest
 import org.apache.commons.codec.binary.Base64;  
 //----------------------------------------------
 
 
-public class TrataXML { 
-	public static XmlRetorno retornoXml = new XmlRetorno();
-	public static XmlRetorno retornoXml2 = new XmlRetorno();
+public class TrataXML1 { 
+	public static XmlEstrutura Estrutura = new XmlEstrutura();
 
 	//----------------------Trata XML	
-	    public static XmlRetorno lerarq(String stringComEstruturaDoXML) throws UnsupportedEncodingException {  
+	    public static XmlEstrutura lerarq(String stringComEstruturaDoXML) throws IOException {  
 	//Aqui você informa o nome do arquivo XML.  
 	       // File f = new File("C:/NFE/nfd.xml");
 	        InputStream f = new ByteArrayInputStream(stringComEstruturaDoXML.getBytes("utf-8"));  
@@ -58,9 +55,8 @@ public class TrataXML {
 	//Iteramos com os elementos filhos, e filhos do dos filhos  
 	            while (i.hasNext()) {  
 	                Element element = (Element) i.next();  
-	                //System.out.println("element:"+ element.getName());  
-	               // Estrutura =	trataElement(element); 
-	                retornoXml2 = trataElement(element);
+	                System.out.println("element:"+ element.getName());  
+	                Estrutura =	trataElement(element);  
 	            }  
 	  
 	        } catch (JDOMException ex) {  
@@ -68,47 +64,35 @@ public class TrataXML {
 	        } catch (IOException ex) {  
 	            Logger.getLogger(SefazXml.class.getName()).log(Level.SEVERE, null, ex);  
 	        }  
-	        return retornoXml2;
+	        return Estrutura;
 	    }  
 	  
-	    public static XmlRetorno trataElement(Element element) {
-            	XmlEstrutura Estrutura = new XmlEstrutura();
-            	XmlEstrutura EstruturaXml= new XmlEstrutura();
+	    public static XmlEstrutura trataElement(Element element) {  
 	//Recuperamos os atributos filhos (Attributes)  
-	            List atributes = element.getAttributes();  
-	            Iterator i_atr = atributes.iterator();
-
+	            List<?> atributes = element.getAttributes();  
+	            Iterator<?> i_atr = atributes.iterator();  
+	  
 	//Iteramos com os atributos filhos  
-	            while (i_atr.hasNext()) {
+	            while (i_atr.hasNext()) {  
 	                Attribute atrib = (Attribute) i_atr.next();  
 	                //System.out.println("atributo de ("+element.getName()+"):"+ atrib.getName()+" - valor: "+atrib.getValue());
-	                //  aqui voce pode escolher qual(is) campo(s) quer manipular
+	                
+	                
+	                //  aqui voce pode escolher qual(is) campo(s) quer manipular                 
 	                if (atrib.getName().contentEquals("schema")) {
 	                	//System.out.println("Schema: "+atrib.getValue());
 	                	Estrutura.setSchema(atrib.getValue());
-	    	            if(retornoXml.getXmlEstrutura() == null) {
-	    	    			retornoXml.setXmlEstrutura(new ArrayList<XmlEstrutura>());
-	    	    		}
-	    	            retornoXml.getXmlEstrutura().add(Estrutura);
-	    	            //System.out.println(Estrutura.getNsu());
-	    	            //System.out.println(Estrutura.getSchema());
-	    	            //System.out.println(Estrutura.getXml());
-
 	                }
 	                
 	                if (atrib.getName().contentEquals("NSU")) {
-	                	EstruturaXml = retornoXml2.getXmlEstruturaP();
 	                	//System.out.println("NSU: "+atrib.getValue());
-	                	//System.out.println(Estrutura.getXml());
-	                	Estrutura.setXml(EstruturaXml.getXml());
 	                	Estrutura.setNsu(atrib.getValue());
 	                }
-	            } 
-	            
-	            
+
+	            }  
 	//Recuperamos os elementos filhos (children)  
-	        List elements = element.getChildren();  
-	        Iterator it = elements.iterator();
+	        List<?> elements = element.getChildren();  
+	        Iterator<?> it = elements.iterator();  
 	  
 	        //Iteramos com os elementos filhos, e filhos do dos filhos  
 	        while (it.hasNext()) {  
@@ -117,13 +101,11 @@ public class TrataXML {
 	  
 	            //  aqui voce pode escolher qual(is) campo(s) quer manipular   
 	            if (el.getName().equals("ultNSU")) {  
-	            	 //System.out.println("ultNSU_: "+ el.getText());
-	            	 retornoXml.setUltNSU(el.getText());
+	            	 System.out.println("ultNSU: "+ el.getText());
 	            }
 	     
 	            if (el.getName().equals("maxNSU")) {  
-	            	//System.out.println("maxNSU_: "+ el.getText());
-	            	retornoXml.setMaxNSU(el.getText());
+	            	 System.out.println("maxNSU: "+ el.getText());
 	            }
 	            
 	            
@@ -136,27 +118,25 @@ public class TrataXML {
 	                    String texto = GzipUtils.decompress(decoded);  
 	                    //System.out.println("XML: ".concat(texto));
 	                    Estrutura.setXml(texto);
-	    	            if(retornoXml2.getXmlEstrutura() == null) {
-	    	    			retornoXml2.setXmlEstrutura(new ArrayList<XmlEstrutura>());
-	    	    		}
-	    	            retornoXml2.getXmlEstrutura().add(Estrutura);
 	                    
 	                } catch (Exception e) {  
 	                	System.out.printf(TrataXML.class.getSimpleName().concat(" :"), e);  
 	            	}
-	            }
-	            
+	            	
+	                //  grava_no_banco de dados(element.getAttributeValue("nNF"))
+	                //System.out.println("docZip: "+ el.getText());
+	            } 
 	            if (el.getName().equals("xMotivo") && el.getText().equals("Nenhum documento localizado")) {
 	            	Estrutura.setNsu(null);
 	            	Estrutura.setSchema(null);
 	            	Estrutura.setXml(null);
-	            	retornoXml2.setXmlEstrutura(new ArrayList<XmlEstrutura>());
-	            	retornoXml.setXmlEstrutura(new ArrayList<XmlEstrutura>());
 	            }
+
 	            
-	            
-	            trataElement(el);   
+	            trataElement(el);
+
+
 	        }
-	    return retornoXml;
+	    return Estrutura;
 	    }
 }

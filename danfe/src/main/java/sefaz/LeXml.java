@@ -24,11 +24,12 @@ import org.apache.commons.codec.binary.Base64;
 
 public class LeXml { 
 	public static XmlRetorno retornoXml = new XmlRetorno();
-	public static XmlRetorno retornoXml2 = new XmlRetorno();
+	public static String valor = new String();
+	public static Boolean flag = false;
 	
 
 	//----------------------Trata XML	
-	    public static XmlRetorno lerarq(String stringComEstruturaDoXML, String campo) throws UnsupportedEncodingException {  
+	    public static String lerarq(String stringComEstruturaDoXML, String campo, String campo1) throws UnsupportedEncodingException {  
 	//Aqui você informa o nome do arquivo XML.  
 	       // File f = new File("C:/NFE/nfd.xml");
 	        InputStream f = new ByteArrayInputStream(stringComEstruturaDoXML.getBytes("utf-8"));  
@@ -41,7 +42,7 @@ public class LeXml {
 	        try {  
 	            d = sb.build(f);  
 	//Recuperamos o elemento root  
-	            Element nfe = d.getRootElement();  
+	            Element nfe = d.getRootElement();
 	  
 	//Recuperamos os atributos filhos (Attributes)  
 	            List atributes = nfe.getAttributes();  
@@ -61,7 +62,7 @@ public class LeXml {
 	                Element element = (Element) i.next();  
 	                //System.out.println("element:"+ element.getName());  
 	               // Estrutura =	trataElement(element); 
-	                retornoXml2 = trataElement(element, campo);
+	                valor = trataElement(element, campo, campo1);
 	            }  
 	  
 	        } catch (JDOMException ex) {  
@@ -69,12 +70,10 @@ public class LeXml {
 	        } catch (IOException ex) {  
 	            Logger.getLogger(SefazXml.class.getName()).log(Level.SEVERE, null, ex);  
 	        }  
-	        return retornoXml2;
+	        return valor;
 	    }  
 	  
-	    public static XmlRetorno trataElement(Element element, String campo) {
-            	XmlEstrutura Estrutura = new XmlEstrutura();
-            	XmlEstrutura EstruturaXml= new XmlEstrutura();
+	    public static String trataElement(Element element, String campo, String campo1) {
 	//Recuperamos os atributos filhos (Attributes)  
 	            List atributes = element.getAttributes();  
 	            Iterator i_atr = atributes.iterator();
@@ -85,75 +84,41 @@ public class LeXml {
 	                //System.out.println("atributo de ("+element.getName()+"):"+ atrib.getName()+" - valor: "+atrib.getValue());
 	                //  aqui voce pode escolher qual(is) campo(s) quer manipular
 	                if (atrib.getName().contentEquals("schema")) {
-	                	//System.out.println("Schema: "+atrib.getValue());
-	                	Estrutura.setSchema(atrib.getValue());
-	    	            if(retornoXml.getXmlEstrutura() == null) {
-	    	    			retornoXml.setXmlEstrutura(new ArrayList<XmlEstrutura>());
-	    	    		}
-	    	            retornoXml.getXmlEstrutura().add(Estrutura);
-	    	            //System.out.println(Estrutura.getNsu());
-	    	            //System.out.println(Estrutura.getSchema());
-	    	            //System.out.println(Estrutura.getXml());
-
+	                	//System.out.println("Schema: "+atrib.getValue())
 	                }
 	                
 	                if (atrib.getName().contentEquals("NSU")) {
-	                	EstruturaXml = retornoXml2.getXmlEstruturaP();
 	                	//System.out.println("NSU: "+atrib.getValue());
-	                	//System.out.println(Estrutura.getXml());
-	                	Estrutura.setXml(EstruturaXml.getXml());
-	                	Estrutura.setNsu(atrib.getValue());
 	                }
-	                System.out.println(atrib.getName()+"="+atrib.getValue());
+	                //System.out.println(atrib.getName()+"="+atrib.getValue());
 	            } 
 	            
 	            
 	//Recuperamos os elementos filhos (children)  
 	        List elements = element.getChildren();  
 	        Iterator it = elements.iterator();
-	  
 	        //Iteramos com os elementos filhos, e filhos do dos filhos  
 	        while (it.hasNext()) {  
 	            Element el = (Element) it.next();  
 	            //System.out.println("elemento("+element.getName()+"):"+ el.getName()+" - Valor: "+el.getText());  
 	  
 	            //  aqui voce pode escolher qual(is) campo(s) quer manipular   
-	            if (el.getName().equals("ultNSU")) {  
-	            	 //System.out.println("ultNSU_: "+ el.getText());
-	            	 retornoXml.setUltNSU(el.getText());
+
+	            if (el.getName().equals(campo1)){
+						//System.out.println("<"+campo1+"> "+ el.getText());
+						flag = true;
 	            }
-	     
-	            if (el.getName().equals("maxNSU")) {  
-	            	//System.out.println("maxNSU_: "+ el.getText());
-	            	retornoXml.setMaxNSU(el.getText());
+	            if (el.getName().equals(campo) && flag == true){
+					valor = el.getText();
+					flag = false;
 	            }
-	            
-	            
-	            
-	            if (el.getName().equals("docZip")) {  
-	            	try {  
-	                    String gzipBase64 = el.getText();  
-	          
-	                    byte[] decoded = Base64.decodeBase64(gzipBase64.getBytes());  
-	                    String texto = GzipUtils.decompress(decoded);  
-	                    //System.out.println("XML: ".concat(texto));
-	                    Estrutura.setXml(texto);
-	    	            if(retornoXml2.getXmlEstrutura() == null) {
-	    	    			retornoXml2.setXmlEstrutura(new ArrayList<XmlEstrutura>());
-	    	    		}
-	    	            retornoXml2.getXmlEstrutura().add(Estrutura);
-	                    
-	                } catch (Exception e) {  
-	                	System.out.printf(TrataXML.class.getSimpleName().concat(" :"), e);  
-	            	}
-	            } 
-	            if (el.getName().equals(campo)){
-						//System.out.println("<"+campo+"> "+ el.getText());
+	            if (el.getName().equals(campo) && campo1.equals("")) {
+	            	valor = el.getText();
 	            }
 	            
-	            	System.out.println(el.getName()+"="+ el.getText());
-	            trataElement(el, campo);   
+	            	//System.out.println(el.getName()+"="+ el.getText());
+	            trataElement(el, campo, campo1);   
 	        }
-	    return retornoXml;
+	    return valor;
 	    }
 }
