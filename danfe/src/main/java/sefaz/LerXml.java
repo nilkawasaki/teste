@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,14 +17,17 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 
-public class LeXml { 
-	public static XmlRetorno retornoXml = new XmlRetorno();
+public class LerXml { 
+	public static ArrayList<XmlEstruturaSimples> xmlESL = new ArrayList<XmlEstruturaSimples>();
+	public static ArrayList<XmlEstruturaSimples> xmlESL2 = new ArrayList<XmlEstruturaSimples>();
 	public static String valor = new String();
+	public static String grupo = new String();
 	public static Boolean flag = false;
+	public static Boolean flagG = false;
 	
 
 	//----------------------Trata XML	
-	    public static String lerarq(String stringComEstruturaDoXML, String campo, String campo1) throws UnsupportedEncodingException {  
+	    public static ArrayList<XmlEstruturaSimples> lerarq(String stringComEstruturaDoXML, String campo, String campo1) throws UnsupportedEncodingException {  
 	//Aqui você informa o nome do arquivo XML.  
 	       // File f = new File("C:/NFE/nfd.xml");
 	        InputStream f = new ByteArrayInputStream(stringComEstruturaDoXML.getBytes("utf-8"));  
@@ -56,7 +60,7 @@ public class LeXml {
 	                Element element = (Element) i.next();  
 	                //System.out.println("element:"+ element.getName());  
 	               // Estrutura =	trataElement(element); 
-	                valor = trataElement(element, campo, campo1);
+	                xmlESL2 = trataElement(element, campo, campo1);
 	            }  
 	  
 	        } catch (JDOMException ex) {  
@@ -64,10 +68,12 @@ public class LeXml {
 	        } catch (IOException ex) {  
 	            Logger.getLogger(SefazXml.class.getName()).log(Level.SEVERE, null, ex);  
 	        }  
-	        return valor;
+	        return xmlESL2;
 	    }  
 	  
-	    public static String trataElement(Element element, String campo, String campo1) {
+	    public static ArrayList<XmlEstruturaSimples> trataElement(Element element, String campo, String campo1) {
+	    	XmlEstruturaSimples xmlest = new XmlEstruturaSimples();
+	    	XmlEstruturaSimples xmlest2 = new XmlEstruturaSimples();
 	//Recuperamos os atributos filhos (Attributes)  
 	            List atributes = element.getAttributes();  
 	            Iterator i_atr = atributes.iterator();
@@ -84,7 +90,12 @@ public class LeXml {
 	                if (atrib.getName().contentEquals("NSU")) {
 	                	//System.out.println("NSU: "+atrib.getValue());
 	                }
-	               // System.out.println(atrib.getName()+"="+atrib.getValue());
+	                //xmlest.setGrupo(grupo);
+	                //xmlest.setAtributo(atrib.getName());
+	                //xmlest.setValor_atributo(atrib.getValue());
+	                //System.out.println("*"+atrib.getName()+"="+atrib.getValue());
+	                //System.out.println(xmlES2.getGrupo()+":"+xmlES2.getAtributo()+";"+xmlES2.getValor_atributo());
+		            //xmlESL.getXmlES().add(xmlest);
 	            } 
 	            
 	            
@@ -98,21 +109,33 @@ public class LeXml {
 	  
 	            //  aqui voce pode escolher qual(is) campo(s) quer manipular   
 
-	            if (el.getName().equals(campo1)){
-						//System.out.println("<"+campo1+"> "+ el.getText());
-						flag = true;
+	            if (el.getText().equals("")) {
+	            	//xmlES2.setGrupo(el.getName());
+	            	grupo = el.getName();
 	            }
-	            if (el.getName().equals(campo) && flag == true){
-					valor = el.getText();
-					flag = false;
+	            if (!el.getText().equals("")) {
+	            	xmlest.setGrupo(grupo);
+	            	xmlest.setCampo(el.getName());
+	            	xmlest.setValor(el.getText());
+	            	System.out.println(xmlest.getGrupo()+"-"+xmlest.getCampo()+"-"+xmlest.getValor());
+	            	xmlESL.add(xmlest);
 	            }
-	            if (el.getName().equals(campo) && campo1.equals("")) {
-	            	valor = el.getText();
+	           
+	            //System.out.println(xmlESL.getXmlES());
+	            
+	           
+	            if (el.getName().equals("xMotivo") && el.getText().equals("Nenhum documento localizado")) {
+	            	xmlest.setAtributo(null);
+	            	xmlest.setCampo(null);
+	            	xmlest.setGrupo(null);
+	            	xmlest.setValor(null);
+	            	xmlest.setValor_atributo(null);
+	            	xmlESL.removeAll(xmlESL);
 	            }
 	            
-	            //System.out.println(el.getName()+"="+ el.getText());
+	            
 	            trataElement(el, campo, campo1);   
 	        }
-	    return valor;
+	    return xmlESL;
 	    }
 }
